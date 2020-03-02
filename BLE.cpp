@@ -8,10 +8,19 @@ void connect_callback(uint16_t conn_handle);
 void disconnect_callback(uint16_t conn_handle,  uint8_t reason);
 
 // BLE Service
+BLE_MODE BLE_Mode;
 BLEDfu  bledfu;  // OTA DFU service
 BLEDis  bledis;  // device information
 BLEUart bleuart; // uart over ble
 BLEBas  blebas;  // battery
+
+void BLE_Mode_Set(BLE_MODE mode){
+    BLE_Mode = mode;
+}
+
+BLE_MODE BLE_Mode_Get(void){
+  return BLE_Mode;
+}
 
 void BLE_init(){
   while ( !Serial ) delay(10);   // for nrf52840 with native usb
@@ -51,8 +60,9 @@ void BLE_init(){
   blebas.begin();
   blebas.write(100);
 
-  // Set up and start advertising
   startAdv();
+
+  BLE_Mode = ON;
 
   Serial.println("BLE Setup Complete");
 }
@@ -60,6 +70,7 @@ void BLE_init(){
 
 void startAdv(void)
 {
+  Serial.println("Start Advertising...");
   // Advertising packet
   Bluefruit.Advertising.addFlags(BLE_GAP_ADV_FLAGS_LE_ONLY_GENERAL_DISC_MODE);
   Bluefruit.Advertising.addTxPower();
@@ -129,6 +140,12 @@ void disconnect_callback(uint16_t conn_handle, uint8_t reason)
 {
   (void) conn_handle;
   (void) reason;
+  BLE_Mode = OFF;
+  //Bluefruit.Advertising.stop();
+  //bleuart.stop();
+  //blebas.stop();
+  //bledfu.stop();
+  //Bluefruit.stop();
 
   Serial.println();
   Serial.print("Disconnected, reason = 0x"); Serial.println(reason, HEX);
