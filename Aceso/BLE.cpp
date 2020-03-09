@@ -23,7 +23,7 @@ BLE_MODE BLE_Mode_Get(void){
 }
 
 void BLE_init(){
-  while ( !Serial ) delay(10);   // for nrf52840 with native usb
+//  while ( !Serial ) delay(10);   // for nrf52840 with native usb
 
   Serial.println("Bluefruit52 BLEUART Example");
   Serial.println("---------------------------\n");
