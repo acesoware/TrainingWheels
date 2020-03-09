@@ -118,6 +118,11 @@ void BLE_uart(){
   }
 }
 
+void Data_out(char* data){
+
+    bleuart.write( data, 1 );
+}
+
 // callback invoked when central connects
 void connect_callback(uint16_t conn_handle)
 {

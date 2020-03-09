@@ -91,7 +91,7 @@ void setup() {
 //  blinkTimer.start();
 
   delay(10);
-  BLE_uart();
+//  BLE_uart();
 }
 
 int current = 0;
@@ -110,7 +110,8 @@ void loop() {
 //  vok[current] = current_mic;
 //  current += 1;
   delay(100);
-  BLE_uart();
+
+  Data_out((char*)current_gsr);
 //  Serial.println(current);
 //  if(current >= 512){
 //    reportAverageEmotions(512,vok,10000);
